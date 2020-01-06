@@ -75,7 +75,7 @@ class Editor extends React.Component {
   }
 }
 export default function App () {
-  let schema = {ui: {}, schema: {title: 'Default Schema Title', description: 'Default escription', type: {}, properties: {}}}
+  let schema = {ui: {}, schema: {title: 'Default Schema Title', description: 'Default description', type: 'object', properties: {}}}
   const [code, setCode] = useState(schema)
   try {
     schema = JSON.parse(code)
@@ -89,7 +89,6 @@ export default function App () {
     <div>
       <ErrorBoundary>
         <div style={{ float: 'left ', width: '50%' }}>
-
           <Editor
             placeholder='Placeholder Text'
             mode='javascript'
@@ -123,6 +122,9 @@ export default function App () {
             }}
             onError={e => console.log('errors', e)}
           />
+        </div>
+        <div style={{clear: 'both'}}>
+          <Form schema={code.schema} uiSchema={code.ui} />
         </div>
       </ErrorBoundary>
     </div>

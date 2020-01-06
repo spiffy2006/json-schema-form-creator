@@ -36,12 +36,9 @@ const formSchema = {
               fieldValidation: {
                 title: 'Rules for field validation',
                 description: 'Which patterns need to be applied to the field',
-                type: 'array',
-                items: {
-                  type: 'string',
-                  enum: validators.map(v => v.regex),
-                  enumNames: validators.map(v => v.text)
-                }
+                type: 'string',
+                enum: validators.map(v => v.regex),
+                enumNames: validators.map(v => v.text)
               }
             }
           },
@@ -50,7 +47,7 @@ const formSchema = {
               fieldType: { enum: ['radio', 'checkbox', 'select'] },
               fieldOptions: {
                 title: 'Radio Options',
-                description: 'Which options are available for the field. Example: Key=value,Other Key=value OR value,value',
+                description: 'Which options are available for the field. Example: Label=value,Other Label=value OR value,value',
                 type: 'string'
               }
             }
@@ -64,7 +61,7 @@ const formSchema = {
       'ui:widget': 'textarea'
     },
     fieldValidation: {
-      'ui:widget': 'checkboxes'
+      'ui:widget': 'select'
     },
     fieldOptions: {
       'ui:widget': 'textarea'
