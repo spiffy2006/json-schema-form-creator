@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import Layout from '../components/layout'
+import Storage from '../libs/storage'
 import { withTheme } from 'react-jsonschema-form'
 import { Theme as MuiTheme } from 'rjsf-material-ui'
 import SchemaCreator from '../components/schema-creator'
@@ -74,19 +76,29 @@ class Editor extends React.Component {
     return (this.state.mounted ? <AceEditor {...this.props} /> : null)
   }
 }
-export default function App () {
+let storage = null
+export default function App () {  
   let schema = {ui: {}, schema: {title: 'Default Schema Title', description: 'Default description', type: 'object', properties: {}}}
   const [code, setCode] = useState(schema)
+  const [schemas, setSchemas] = useState([])
+  const [storageInitialized, setStorageInitialized] = useState(false)
   try {
     schema = JSON.parse(code)
   } catch (e) {
     //
   }
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !storageInitialized) {
+      storage = new Storage(window.localStorage)
+      setSchemas(storage.getAll())
+      setStorageInitialized(true)
+    }
+  })
 
   console.log(schema, code)
-
+  // Have a way to create reusable schemas, and then add those to a form
   return (
-    <div>
+    <Layout>
       <ErrorBoundary>
         <div style={{ float: 'left ', width: '50%' }}>
           <Editor
@@ -119,6 +131,8 @@ export default function App () {
               newCode.ui = ui
               newCode.schema.properties = properties
               setCode(newCode)
+              storage.add(e)
+              setSchemas(storage.getAll())
             }}
             onError={e => console.log('errors', e)}
           />
@@ -126,7 +140,8 @@ export default function App () {
         <div style={{clear: 'both'}}>
           <Form schema={code.schema} uiSchema={code.ui} />
         </div>
+        <pre>{JSON.stringify(schemas, null, 2)}</pre>
       </ErrorBoundary>
-    </div>
+    </Layout>
   )
 }

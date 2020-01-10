@@ -110,8 +110,11 @@ function generateSchema ({ formData }) {
       break
     case 'checkbox':
       schema.type = 'array'
-      schema = addOptionsSchema(schema, formData.fieldOptions)
-      ui = { 'ui:widget': 'checkbox' }
+      schema.uniqueItems = true
+      let items = {type: 'string'}
+      items = addOptionsSchema(items, formData.fieldOptions)
+      schema.items = items
+      ui = { 'ui:widget': 'checkboxes' }
       break
     case 'select':
       schema.type = 'string'
