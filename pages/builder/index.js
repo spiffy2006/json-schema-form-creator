@@ -28,7 +28,9 @@ class App extends Component {
       <div>
         <Head>
           <title>Schema Builder</title>
-          <link href="/static/antd.css" rel="stylesheet" />
+          <link href="/builder.css" rel="stylesheet" />
+          <link href="/antd.css" rel="stylesheet" />
+          <link href="/bootstrap.css" rel="stylesheet" />
         </Head>
         <Layout>
           <Sider
